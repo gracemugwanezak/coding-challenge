@@ -1,7 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ForbiddenException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { OrderDto } from '../auth/dto';
 
-@Injectable({})
+@Injectable()
 export class OrderService {
-  placeOrder() {}
-  viewOrders() {}
+  constructor(private prisma: PrismaService) {}
+
+  // Create order
+  async create(orderDto: OrderDto, userId: number) {
+    const { productIds } = orderDto;
+
+    // Fetch the products based on the provided product IDs
+    const products = await this.prisma.product.findMany({
+      where: { id: { in: productIds } },
+    });
+
+    // Check if all products exist
+    if (products.length !== productIds.length) {
+      throw new ForbiddenException('Some products do not exist');
+    }
+
+    // Create the order and associate products with the order
+    return this.prisma.order.create({
+      data: {
+        user: { connect: { id: userId } },
+        products: {
+          connect: productIds.map((id) => ({ id })), // Connect multiple products
+        },
+        status: 'PENDING',
+      },
+      include: {
+        products: true, // Include associated products
+      },
+    });
+  }
+
+  // Find orders by userId
+  async findByUser(userId: number) {
+    return this.prisma.order.findMany({
+      where: { userId },
+      include: {
+        products: true, // Include associated products
+      },
+    });
+  }
 }

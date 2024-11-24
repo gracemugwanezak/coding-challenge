@@ -20,14 +20,14 @@ model User {
 }
 
 model Product {
-  id          Int      @id @default(autoincrement()) // Corrected
+  id          Int      @id @default(autoincrement()) 
   name        String
   price       Int
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  orders      Order[] // Added relation field
-  reviews     Review[] // Added relation field
+  orders      Order[]  @relation("OrderProducts")
+  reviews     Review[] 
   @@map("products")
 }
 
@@ -39,11 +39,11 @@ enum OrderStatus {
 }
 
 model Order {
-  id         Int         @id @default(autoincrement()) // Corrected
-  user_id    Int
-  user       User        @relation(fields: [user_id], references: [id])
-  product_id Int
-  product    Product     @relation(fields: [product_id], references: [id])
+  id         Int         @id @default(autoincrement()) 
+  userId     Int
+  user       User        @relation(fields: [userId], references: [id])
+  
+  products    Product[]    @relation("OrderProducts")
   status     OrderStatus
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
@@ -52,10 +52,10 @@ model Order {
 
 model Review {
   id         Int      @id @default(autoincrement()) // Corrected
-  user_id    Int
-  user       User     @relation(fields: [user_id], references: [id])
-  product_id Int
-  product    Product  @relation(fields: [product_id], references: [id])
+  userId    Int
+  user       User     @relation(fields: [userId], references: [id])
+  productId Int
+  product    Product  @relation(fields: [productId], references: [id])
   rating     Int
   comment    String
   createdAt  DateTime @default(now())
