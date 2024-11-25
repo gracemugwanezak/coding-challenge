@@ -13,12 +13,12 @@ export class ReviewDto {
   productId: number; // Product being reviewed
 
   @IsNumber()
-  @Min(1) // Minimum rating value
-  @Max(5) // Maximum rating value
+  @Min(1)
+  @Max(5)
   rating: number;
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(300) // Example max length for the review comment
+  @MaxLength(300) // max length for the review comment
   comment: string;
 }
