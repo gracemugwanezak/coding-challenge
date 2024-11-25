@@ -11,9 +11,6 @@ export class ProductDto {
   @IsNotEmpty()
   name: string;
 
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(50)
   @IsNumber()
   @Min(0)
   price: number;

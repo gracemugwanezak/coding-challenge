@@ -11,7 +11,7 @@ export class OrderController {
     return this.orderService.create(orderDto, userId);
   }
 
-  @Get()
+  @Get('user')
   getUserOrders(@GetUser('id') userId: number) {
     return this.orderService.findByUser(userId);
   }

@@ -14,8 +14,8 @@ import { ProductDto } from '../auth/dto';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
   @Get(':id')
-  getProduct(@Param('id') id: number) {
-    return this.productService.findOne(id);
+  getProduct(@Param('id') id: string) {
+    return this.productService.findOne(Number(id));
   }
   @Get()
   getAllProducts() {
@@ -26,11 +26,11 @@ export class ProductController {
     return this.productService.create(productDto);
   }
   @Patch(':id')
-  updateProduct(@Param('id') id: number, @Body() productDto: ProductDto) {
-    return this.productService.update(id, productDto);
+  updateProduct(@Param('id') id: string, @Body() productDto: ProductDto) {
+    return this.productService.update(Number(id), productDto);
   }
   @Delete(':id')
-  deleteProduct(@Param('id') id: number) {
-    return this.productService.delete(id);
+  deleteProduct(@Param('id') id: string) {
+    return this.productService.delete(Number(id));
   }
 }
