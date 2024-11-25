@@ -22,6 +22,9 @@ export class jwtStrategy extends PassportStrategy(Strategy, 'jwt') {
         id: payload.sub,
       },
     });
+    if (!user) {
+      throw new Error('User not found');
+    }
     delete user.hash;
     return user;
   }

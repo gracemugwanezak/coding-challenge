@@ -25,12 +25,12 @@ export class OrderService {
       data: {
         user: { connect: { id: userId } },
         products: {
-          connect: productIds.map((id) => ({ id })), // Connect multiple products
+          connect: productIds.map((id) => ({ id })),
         },
         status: 'PENDING',
       },
       include: {
-        products: true, // Include associated products
+        products: true,
       },
     });
   }
@@ -38,9 +38,11 @@ export class OrderService {
   // Find orders by userId
   async findByUser(userId: number) {
     return this.prisma.order.findMany({
-      where: { userId },
+      where: {
+        userId: userId,
+      },
       include: {
-        products: true, // Include associated products
+        products: true,
       },
     });
   }

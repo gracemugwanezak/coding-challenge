@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Param } from '@nestjs/common';
 import { OrderService } from './order.service';
-import { GetUser } from 'src/auth/decorator';
+import { GetUser } from 'src/auth/decorator/get-user.decorator';
 import { OrderDto } from '../auth/dto/order.dto';
+import { jwtGuard } from 'src/auth/guard';
 @Controller('orders')
+@UseGuards(jwtGuard)
 export class OrderController {
   constructor(private orderService: OrderService) {}
 
@@ -11,8 +13,11 @@ export class OrderController {
     return this.orderService.create(orderDto, userId);
   }
 
-  @Get('user')
-  getUserOrders(@GetUser('id') userId: number) {
-    return this.orderService.findByUser(userId);
+  @Get(':id')
+  getUserOrders(@Param('id') userId: string) {
+    const parsedUserId = parseInt(userId, 10);
+    {
+      return this.orderService.findByUser(parsedUserId);
+    }
   }
 }
