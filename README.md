@@ -1,99 +1,214 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+### Basic authentication and crud operations for an E-commerce API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Table of Contents
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+`installation`
 
-## Description
+`setup and running API`
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+`Authentication`
 
-## Project setup
+`Endpoints`
+
+- `Authentication endpoints`
+
+- `Order endpoints`
+- `Review endpoints`
+
+`Error handling`
+
+`Docker setup`
+
+## Installation
+
+git clone the repository [repo](https://github.com/gracemugwanezak/coding-challenge) to run in your local machine.
+
+cd coding-challenge
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+run the repo locally
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run start:dev
 ```
 
-## Run tests
+The APIs will be available at [API](localhost:3333).
 
-```bash
-# unit tests
-$ npm run test
+## Authentication
 
-# e2e tests
-$ npm run test:e2e
+The API uses JWT (JSON Web Tokens) for user authentication. To authenticate, you need to include a valid JWT token in the `Authorization` header of each request
 
-# test coverage
-$ npm run test:cov
+#### How to Obtain a Token:
+
+Login Endpoint:
+
+To log in and obtain a JWT token, send a `POST` request to `/auth/signin` with the following payload
+
+```json
+{
+  "email": "user@example.com",
+  "password": "your-password"
+}
 ```
 
-## Deployment
+The response will contain the token
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g mau
-$ mau deploy
+```json
+{
+  "access_token": "your-jwt-token"
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Endpoints
 
-## Resources
+### Authentication Endpoints
 
-Check out a few resources that may come in handy when working with NestJS:
+1. POST /auth/signin
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- Request body:
 
-## Support
+```
+json
+{
+  "email": "user@example.com",
+  "password": "password"
+}
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- Response:
 
-## Stay in touch
+```{
+  "access_token": "jwt-token"
+}
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Order Endpoints
 
-## License
+1. POST /orders
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Place an order for a product. This endpoint requires a JWT token.
+
+- Request body:
+
+```
+json
+{
+  "productId": [3],
+  "quantity": 2
+}
+
+```
+
+- Response:
+
+```
+{
+ {
+	"id": 4,
+	"userId": 1,
+	"status": "PENDING",
+	"createdAt": "2024-11-25T11:37:56.820Z",
+	"updatedAt": "2024-11-25T11:37:56.820Z",
+	"products": [
+		{
+			"id": 3,
+			"name": "Product B",
+			"price": 200,
+			"description": "Description of Product B",
+			"createdAt": "2024-11-25T08:31:58.894Z",
+			"updatedAt": "2024-11-25T08:31:58.894Z"
+		}
+	]
+}
+}
+
+```
+
+2.GET /orders/:userId
+
+- Request body:
+
+```
+json
+{
+  "productId": [3],
+}
+
+```
+
+- Response:
+
+```
+	{
+		"id": 1,
+		"userId": 1,
+		"status": "PENDING",
+		"createdAt": "2024-11-25T09:51:51.906Z",
+		"updatedAt": "2024-11-25T09:51:51.906Z",
+		"products": [
+			{
+				"id": 3,
+				"name": "Product B",
+				"price": 200,
+				"description": "Description of Product B",
+				"createdAt": "2024-11-25T08:31:58.894Z",
+				"updatedAt": "2024-11-25T08:31:58.894Z"
+			}
+		]
+	}
+
+```
+
+### Review Endpoints
+
+1. POST /reviews
+   Create a product review. Requires JWT token and that the user has purchased the product.
+
+- Request body:
+
+```
+{
+  "productId": 3,
+  "rating": 4,
+  "comment": "This product is great!"
+}
+```
+
+- Response:
+
+```
+{
+	"id": 1,
+	"userId": 1,
+	"productId": 3,
+	"rating": 4,
+	"comment": "This product is great!",
+	"createdAt": "2024-11-25T10:26:19.399Z",
+	"updatedAt": "2024-11-25T10:26:19.399Z"
+}
+```
+
+# Error Handling
+
+The API will return error messages with appropriate HTTP status codes.
+
+- 401 Unauthorized: If the user is not authenticated or the JWT token is missing/invalid.
+
+- 403 Forbidden: If the user is not authorized to perform an action (e.g., reviewing a product not purchased).
+
+- 404 Not Found: If the resource (e.g., order, product, review) is not found.
+
+- 500 Internal Server Error: If there is an unexpected issue on the server.
+
+## Docker Setup
+
+#### First, build the Docker images:
+
+`docker-compose up --build`
+
+#### API will be available at:
+
+`http://localhost:5434`
