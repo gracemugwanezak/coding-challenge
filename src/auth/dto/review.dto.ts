@@ -8,17 +8,16 @@ import {
 } from 'class-validator';
 
 export class ReviewDto {
-  @IsNumber()
-  @IsNotEmpty()
-  productId: number; // Product being reviewed
+  @IsNumber({}, { message: 'Product ID must be a number.' })
+  productId: number;
 
-  @IsNumber()
-  @Min(1)
-  @Max(5)
+  @IsNumber({}, { message: 'Rating must be a number.' })
+  @Min(1, { message: 'Rating must be at least 1.' })
+  @Max(5, { message: 'Rating cannot exceed 5.' })
   rating: number;
 
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(300) // max length for the review comment
+  @IsString({ message: 'Comment must be a string.' })
+  @IsNotEmpty({ message: 'Comment cannot be empty.' })
+  @MaxLength(300, { message: 'Comment cannot exceed 300 characters.' })
   comment: string;
 }

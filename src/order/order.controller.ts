@@ -2,9 +2,10 @@ import { Controller, Get, Post, Body, UseGuards, Param } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { GetUser } from 'src/auth/decorator/get-user.decorator';
 import { OrderDto } from '../auth/dto/order.dto';
-import { jwtGuard } from 'src/auth/guard';
+import { JwtGuard } from 'src/auth/guard';
+
 @Controller('orders')
-@UseGuards(jwtGuard)
+@UseGuards(JwtGuard)
 export class OrderController {
   constructor(private orderService: OrderService) {}
 
@@ -16,8 +17,6 @@ export class OrderController {
   @Get(':id')
   getUserOrders(@Param('id') userId: string) {
     const parsedUserId = parseInt(userId, 10);
-    {
-      return this.orderService.findByUser(parsedUserId);
-    }
+    return this.orderService.findByUser(parsedUserId); // Removed extra braces here
   }
 }

@@ -1,4 +1,8 @@
-import { Injectable, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { OrderDto } from '../auth/dto';
 
@@ -17,7 +21,7 @@ export class OrderService {
 
     // Check if all products exist
     if (products.length !== productIds.length) {
-      throw new ForbiddenException('Some products do not exist');
+      throw new NotFoundException(' products were not found');
     }
 
     // Create the order and associate products with the order
