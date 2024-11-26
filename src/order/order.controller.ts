@@ -17,6 +17,6 @@ export class OrderController {
   @Get(':id')
   getUserOrders(@Param('id') userId: string) {
     const parsedUserId = parseInt(userId, 10);
-    return this.orderService.findByUser(parsedUserId); // Removed extra braces here
+    return this.orderService.findByUser(parsedUserId);
   }
 }
